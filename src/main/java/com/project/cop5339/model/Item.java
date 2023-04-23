@@ -15,15 +15,18 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
+    @Column(nullable = true)
+    private String name;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
-
+    @Column(nullable = true)
+    private int price;
     @Column(nullable = false)
     private int quantity;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal itemTotal;
 
     public Long getId() {
@@ -65,6 +68,16 @@ public class Item {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
+
+    public void setPrice(BigDecimal price) {
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
     //public void setShoppingCart(ShoppingCart shoppingCart) {
      //   this.shoppingCart = shoppingCart;
    // }/
