@@ -8,7 +8,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -21,7 +21,7 @@ public class Product {
 
     @Column(name = "quantity_available")
     private int quantityAvailable;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
@@ -35,11 +35,11 @@ public class Product {
     }
 
     public Long getProductId() {
-        return productId;
+        return id;
     }
 
     public void setProductId(Long productId) {
-        this.productId = productId;
+        this.id = productId;
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package com.project.cop5339.model;
 
 
 import jakarta.persistence.*;
+@Entity
 @Table(name = "customers")
 public class Customer {
     @Id

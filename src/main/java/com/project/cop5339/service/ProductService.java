@@ -21,7 +21,9 @@ public class ProductService {
     public Product getProductById(Long productId) {
         return productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId.toString()));
     }
-
+    public List<Product> getProductsBySeller(Long sellerId) {
+        return productRepository.findBySellerId(sellerId);
+    }
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }

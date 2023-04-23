@@ -37,8 +37,10 @@ public class SellerService {
     public Product updateProduct(String sellerUsername, Long productId, Product productRequest) {
         Seller seller = (Seller) sellerRepository.findByUsername(sellerUsername)
                 .orElseThrow(() -> new ResourceNotFoundException("Seller"+ "username"+sellerUsername));
-        Product product = (Product) productRepository.findByIdAndSeller(productId, seller)
-                .orElseThrow(() -> new ResourceNotFoundException("Product"+ "productId"+ productId.toString()));
+        Product product = productRepository.findByIdAndSeller(productId, seller);
+        if(product == null) {
+            throw new ResourceNotFoundException("Product " + productId.toString() + " not found for seller " + seller.getUsername());
+        }
         product.setName(productRequest.getName());
         product.setInvoicePrice(productRequest.getInvoicePrice());
         product.setSellPrice(productRequest.getSellPrice());

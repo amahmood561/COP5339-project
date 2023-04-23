@@ -1,7 +1,5 @@
 package com.project.cop5339;
 
-import com.project.cop5339.controller.HelloWorldController;
-import com.project.cop5339.swing.HelloWorldSwing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -16,9 +14,9 @@ public class ProjectApplication {
         ConfigurableApplicationContext context = SpringApplication.run(ProjectApplication.class, args);
 
         // Launch the Swing application
-        HelloWorldController controller = context.getBean(HelloWorldController.class);
-                HelloWorldSwing helloWorldSwing = new HelloWorldSwing(controller);
-        helloWorldSwing.showGUI();
+        //HelloWorldController controller = context.getBean(HelloWorldController.class);
+       //         HelloWorldSwing helloWorldSwing = new HelloWorldSwing(controller);
+       // helloWorldSwing.showGUI();
     }
 
 }

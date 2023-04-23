@@ -2,20 +2,32 @@ package com.project.cop5339.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-
+import java.util.List;
 @Entity
 @Table(name = "sellers")
 public class Seller {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
+    private Long id;
 
     @Column(name = "username")
     private String username;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "costs")
+    private BigDecimal costs;
+
+    @Column(name = "revenues")
+    private BigDecimal revenues;
+
+    @Column(name = "profits")
+    private BigDecimal profits;
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private List<Product> products;
 
     public Seller() {}
 
@@ -25,62 +37,59 @@ public class Seller {
     }
 
     public Long getSellerId() {
-        return sellerId;
+        return id;
     }
 
     public void setSellerId(Long sellerId) {
-    this.sellerId = sellerId;
-            }
+        this.id = sellerId;
+    }
 
     public String getUsername() {
-            return username;
+        return username;
     }
 
     public void setUsername(String username) {
-            this.username = username;
+        this.username = username;
     }
 
     public String getPassword() {
-            return password;
-            }
+        return password;
+    }
 
     public void setPassword(String password) {
-            this.password = password;
-            }
+        this.password = password;
+    }
 
-    public void viewInventory() {
-            // implementation for viewing inventory
-            }
-
-    public void addProduct() {
-            // implementation for adding a product to inventory
-            }
-
-    public void updateInventory() {
-            // implementation for updating inventory
-            }
-
-    public double getCosts() {
-            // implementation for calculating costs
-            return 0;
-            }
-
-    public double getRevenues() {
-            // implementation for calculating revenues
-            return 0;
-            }
-
-    public double getProfits() {
-            // implementation for calculating profits
-            return 0;
-            }
+    public BigDecimal getCosts() {
+        return costs;
+    }
 
     public void setCosts(BigDecimal costs) {
+        this.costs = costs;
+    }
+
+    public BigDecimal getRevenues() {
+        return revenues;
     }
 
     public void setRevenues(BigDecimal revenues) {
+        this.revenues = revenues;
+    }
+
+    public BigDecimal getProfits() {
+        return profits;
     }
 
     public void setProfits(BigDecimal profits) {
+        this.profits = profits;
     }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
 }
