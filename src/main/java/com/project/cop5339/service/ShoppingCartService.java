@@ -30,9 +30,11 @@ public class ShoppingCartService {
     }
 
     public ShoppingCart addItemToShoppingCart(ShoppingCart shoppingCart, Item item) {
+        if (shoppingCart != null) {
+            shoppingCart.getItems().add(item);
+        }
         item.setShoppingCart(shoppingCart);
         itemRepository.save(item);
-        shoppingCart.getItems().add(item);
         return shoppingCartRepository.save(shoppingCart);
     }
 
