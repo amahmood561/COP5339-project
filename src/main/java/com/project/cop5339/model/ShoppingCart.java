@@ -2,6 +2,7 @@ package com.project.cop5339.model;
 
 
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -10,19 +11,19 @@ public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartId;
+    private Long id;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
     public ShoppingCart() {}
 
     public Long getCartId() {
-        return cartId;
+        return id;
     }
 
     public void setCartId(Long cartId) {
-        this.cartId = cartId;
+        this.id = cartId;
     }
 
     public List<Item> getItems() {

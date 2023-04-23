@@ -8,12 +8,14 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "items")
 public class Item {
-    @OneToOne
-    private ShoppingCart shoppingCart;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
@@ -63,5 +65,8 @@ public class Item {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
+    //public void setShoppingCart(ShoppingCart shoppingCart) {
+     //   this.shoppingCart = shoppingCart;
+   // }/
 
 }

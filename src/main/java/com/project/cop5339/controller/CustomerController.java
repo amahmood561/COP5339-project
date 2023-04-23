@@ -5,7 +5,6 @@ import com.project.cop5339.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class CustomerController {
@@ -19,7 +18,7 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    public Optional<Customer> getCustomerById(Long id) {
+    public Customer getCustomerById(Long id) {
         return customerService.getCustomerByUsername(String.valueOf(id));
     }
 
