@@ -16,7 +16,11 @@ public class Seller {
 
     @Column(name = "password")
     private String password;
+    @Column(name = "email")
+    private String email;
 
+    @Column(name = "name")
+    private String name;
     @Column(name = "costs")
     private BigDecimal costs;
 
@@ -35,7 +39,12 @@ public class Seller {
         this.username = username;
         this.password = password;
     }
-
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public Long getSellerId() {
         return id;
     }

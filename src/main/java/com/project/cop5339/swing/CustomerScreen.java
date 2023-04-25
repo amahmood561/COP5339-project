@@ -21,7 +21,7 @@ public class CustomerScreen extends JFrame {
     private JPanel panel;
     private GridBagConstraints constraints;
 
-    public CustomerScreen(ShoppingCartController shoppingCartController, String username) {
+    public CustomerScreen(String username) {
         this.shoppingCartController = shoppingCartController;
 
         setTitle("Customer Screen");

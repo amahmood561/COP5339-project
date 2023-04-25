@@ -44,7 +44,14 @@ public class CustomerService {
             customerRepository.delete(customer);
         }
     }
-
+    public Customer authenticate(String username, String password) {
+        Customer customer = customerRepository.findByUsername(username);
+        if (customer != null && customer.getPassword().equals(password)) {
+            return customer;
+        } else {
+            throw new IllegalArgumentException("Invalid login credentials.");
+        }
+    }
     public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
