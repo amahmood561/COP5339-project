@@ -18,7 +18,6 @@ public class Item {
     @Column(nullable = true)
     private String name;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
     @Column(nullable = true)
@@ -76,6 +75,12 @@ public class Item {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public int getPrice() {
+        return this.price;
     }
 
     //public void setShoppingCart(ShoppingCart shoppingCart) {
