@@ -11,7 +11,11 @@ public class Customer {
 
     @Column(nullable = false)
     private String username;
+    @Column(name = "email")
+    private String email;
 
+    @Column(name = "name")
+    private String name;
     @Column(nullable = false)
     private String password;
 
@@ -37,5 +41,11 @@ public class Customer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

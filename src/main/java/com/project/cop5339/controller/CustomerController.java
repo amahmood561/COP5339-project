@@ -9,7 +9,9 @@ import java.util.List;
 @Controller
 public class CustomerController {
     private final CustomerService customerService;
-
+    public Customer login(String username, String password) {
+        return customerService.authenticate(username, password);
+    }
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }

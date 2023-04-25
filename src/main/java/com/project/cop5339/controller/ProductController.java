@@ -3,8 +3,10 @@ package com.project.cop5339.controller;
 
 import com.project.cop5339.model.Product;
 import com.project.cop5339.service.ProductService;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
+@Controller
 
 public class ProductController {
 

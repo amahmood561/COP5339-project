@@ -22,21 +22,27 @@ public class SellerService {
     }
 
     public List<Product> viewInventory(String sellerUsername) {
-        Seller seller = (Seller) sellerRepository.findByUsername(sellerUsername)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller"+ "username"+sellerUsername));
+        Seller seller = sellerRepository.findByUsername(sellerUsername);
+        if (seller != null) {
+            new ResourceNotFoundException("Seller"+ "username"+sellerUsername);
+        }
         return productRepository.findBySeller(seller);
     }
 
     public Product addProduct(String sellerUsername, Product product) {
-        Seller seller = (Seller) sellerRepository.findByUsername(sellerUsername)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller"+ "username"+sellerUsername));
+        Seller seller = sellerRepository.findByUsername(sellerUsername);
+        if (seller != null) {
+            new ResourceNotFoundException("Seller"+ "username"+sellerUsername);
+        }
         product.setSeller(seller);
         return productRepository.save(product);
     }
 
     public Product updateProduct(String sellerUsername, Long productId, Product productRequest) {
-        Seller seller = (Seller) sellerRepository.findByUsername(sellerUsername)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller"+ "username"+sellerUsername));
+        Seller seller = sellerRepository.findByUsername(sellerUsername);
+        if (seller != null) {
+            new ResourceNotFoundException("Seller"+ "username"+sellerUsername);
+        }
         Product product = productRepository.findByIdAndSeller(productId, seller);
         if(product == null) {
             throw new ResourceNotFoundException("Product " + productId.toString() + " not found for seller " + seller.getUsername());
@@ -49,8 +55,11 @@ public class SellerService {
     }
 
     public Seller getSalesReport(String sellerUsername) {
-        Seller seller = (Seller) sellerRepository.findByUsername(sellerUsername)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller"+ "username"+sellerUsername));
+        Seller seller = sellerRepository.findByUsername(sellerUsername);
+        if (seller != null) {
+            new ResourceNotFoundException("Seller"+ "username"+sellerUsername);
+        }
+
         List<Product> products = productRepository.findBySeller(seller);
         BigDecimal costs = BigDecimal.ZERO;
         BigDecimal revenues = BigDecimal.ZERO;
@@ -64,6 +73,15 @@ public class SellerService {
         seller.setRevenues(revenues);
         seller.setProfits(profits);
         return seller;
+    }
+
+    public Seller authenticate(String username, String password) {
+        Seller seller = sellerRepository.findByUsername(username);
+        if (seller != null && seller.getPassword().equals(password)) {
+            return seller;
+        } else {
+            throw new IllegalArgumentException("Invalid login credentials.");
+        }
     }
 
     public Seller createSeller(Seller seller) {

@@ -3,25 +3,29 @@ package com.project.cop5339.service;
 
 import com.project.cop5339.model.Item;
 import com.project.cop5339.model.ShoppingCart;
+import com.project.cop5339.model.repository.CustomerRepository;
 import com.project.cop5339.model.repository.ItemRepository;
 import com.project.cop5339.model.repository.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class ShoppingCartService {
-
+    private final CustomerRepository customerService;
     private final ShoppingCartRepository shoppingCartRepository;
     private final ItemRepository itemRepository;
 
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ItemRepository itemRepository) {
+    public ShoppingCartService(CustomerRepository customerService, ShoppingCartRepository shoppingCartRepository, ItemRepository itemRepository) {
+        this.customerService = customerService;
         this.shoppingCartRepository = shoppingCartRepository;
         this.itemRepository = itemRepository;
     }
 
-    public ShoppingCart createShoppingCart(ShoppingCart shoppingCart) {
-        return shoppingCartRepository.save(shoppingCart);
+    public Long createShoppingCart(ShoppingCart shoppingCart) {
+        return shoppingCartRepository.save(shoppingCart).getCartId();
     }
 
     public ShoppingCart getShoppingCartById(Long id) {
@@ -55,5 +59,61 @@ public class ShoppingCartService {
             total = total.add(item.getItemTotal());
         }
         return total;
+    }
+    public List<Item> getCartItems(Long id) {
+        // Get the current shopping cart from the repository
+        ShoppingCart shoppingCart = this.getShoppingCartById(id); // assuming cart ID is 1
+
+        // If the cart is null, return an empty list
+        if (shoppingCart == null) {
+            return Collections.emptyList();
+        }
+
+        // Otherwise, return the items in the cart
+        return shoppingCart.getItems();
+    }
+    public String checkout(Long id) {
+        // Get the current shopping cart for the user
+        ShoppingCart shoppingCart = this.getShoppingCartById(id);
+
+        // Check if the cart is empty
+        if (shoppingCart.getItems().isEmpty()) {
+            return "Your cart is empty. Please add items before checking out.";
+        }
+
+        // Calculate the total cost of the items in the cart
+        BigDecimal totalCost = BigDecimal.ZERO;
+        for (Item item : shoppingCart.getItems()) {
+            BigDecimal itemCost = BigDecimal.valueOf(item.getPrice() * item.getQuantity());
+            totalCost = totalCost.add(itemCost);
+        }
+
+        /*// Check if the user has enough funds to cover the cost of the items
+        Customer customer = customerService.getReferenceById(customerId);
+        if (customer.getBalance().compareTo(totalCost) < 0) {
+            return "You do not have enough funds to complete this transaction. Please add funds to your account and try again.";
+        }
+
+        // Deduct the cost of the items from the customer's balance
+        customer.setBalance(customer.getBalance().subtract(totalCost));
+        customerRepository.save(customer);*/
+
+        // Remove the items from the shopping cart
+        shoppingCart.getItems().clear();
+        shoppingCartRepository.save(shoppingCart);
+
+        return "Your order has been processed. Total cost: " + totalCost.toString();
+    }
+    public int getCartSize(Long id) {
+        // Retrieve the current shopping cart from the repository
+        ShoppingCart shoppingCart = this.getShoppingCartById(id);
+
+        // If the shopping cart is not null, return the size of the list of items
+        if (shoppingCart != null) {
+            return shoppingCart.getItems().size();
+        }
+
+        // If the shopping cart is null, return 0
+        return 0;
     }
 }
