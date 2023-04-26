@@ -1,8 +1,8 @@
 package com.project.cop5339.model;
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 @Entity
 @Table(name = "sellers")
 public class Seller {
@@ -29,9 +29,6 @@ public class Seller {
 
     @Column(name = "profits")
     private BigDecimal profits;
-
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-    private List<Product> products;
 
     public Seller() {}
 
@@ -91,14 +88,6 @@ public class Seller {
 
     public void setProfits(BigDecimal profits) {
         this.profits = profits;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
 }

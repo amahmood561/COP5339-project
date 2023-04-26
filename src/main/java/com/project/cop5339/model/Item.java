@@ -18,10 +18,8 @@ public class Item {
     @Column(nullable = true)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Product product;
     @Column(nullable = true)
-    private int price;
+    private BigDecimal price;
     @Column(nullable = false)
     private int quantity;
 
@@ -36,13 +34,16 @@ public class Item {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
     @Column(nullable = true)
     private Long sellerId;
-
+    public static Item createItem(Long id, String name, BigDecimal price, Long sellerId) {
+        Item item = new Item();
+        item.id = id;
+        item.name = name;
+        item.price = price;
+        item.sellerId = sellerId;
+        return item;
+    }
     // getters and setters
     public Long getSellerId() {
         return sellerId;
@@ -51,9 +52,6 @@ public class Item {
         this.sellerId = sellerId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -80,8 +78,6 @@ public class Item {
     }
 
     public void setPrice(BigDecimal price) {
-    }
-    public void setPrice(int price) {
         this.price = price;
     }
     public void setName(String name) {
@@ -90,7 +86,7 @@ public class Item {
     public String getName() {
         return this.name;
     }
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return this.price;
     }
 

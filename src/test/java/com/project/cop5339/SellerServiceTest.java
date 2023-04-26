@@ -1,6 +1,5 @@
 package com.project.cop5339;
 
-import com.project.cop5339.model.Product;
 import com.project.cop5339.model.Seller;
 import com.project.cop5339.model.repository.ProductRepository;
 import com.project.cop5339.model.repository.SellerRepository;
@@ -13,9 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,7 +41,6 @@ public class SellerServiceTest {
     public void tearDown() {
         // delete test seller
         Seller testSeller = (Seller) sellerRepository.findByUsername("testuser");
-//                .orElse(null);
         if (testSeller != null) {
             sellerRepository.delete(testSeller);
         }
@@ -62,8 +57,6 @@ public class SellerServiceTest {
 
     @Test
     public void testGetSellerById() {
-        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser");
-//                .orElse(null);
         assertNotNull(testSeller);
 
         Long sellerId = testSeller.getSellerId();
@@ -75,7 +68,6 @@ public class SellerServiceTest {
     @Test
     public void testGetSalesReport() {
         Seller testSeller = (Seller) sellerRepository.findByUsername("newuser");
-//                .orElse(null);
         assertNotNull(testSeller);
 
         Product product1 = new Product("product1",10.0, 20.0, 10);
@@ -101,5 +93,4 @@ public class SellerServiceTest {
         assertEquals(expectedProfits, salesReport.getProfits());
     }
 
-    // add more test methods as needed
 }
