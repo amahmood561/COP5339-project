@@ -19,4 +19,8 @@ public class ItemsController {
     public Item create(Item item) {
         return itemsService.saveItem(item);
     }
+    public List<Item> getAllItemsbySellerid(long id) {
+        return itemsService.getAllItemsBySellerId(id);
+    }
+
 }

@@ -27,8 +27,6 @@ public class ProjectApplication {
         SellerController sellerController = context.getBean(SellerController.class);
         ItemsController itemsController = context.getBean(ItemsController.class);
 
-        //SellerScreen sellerScreen = new SellerScreen();
-        //sellerScreen.setVisible(true);
         // Create a default seller and customer
         Seller seller = new Seller();
         seller.setUsername("seller");

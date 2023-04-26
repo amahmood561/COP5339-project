@@ -62,7 +62,7 @@ public class LoginScreen extends JFrame {
                 if (seller != null) {
                     // Show the seller screen
                     dispose();
-                    new SellerScreen();
+                    new SellerScreen(seller.getSellerId(), sellerController, shoppingCartController, itemsController);
                 } else if (customer != null) {
                     // Show the customer screen
                     dispose();

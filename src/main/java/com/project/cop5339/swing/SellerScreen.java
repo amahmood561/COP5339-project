@@ -1,17 +1,19 @@
 package com.project.cop5339.swing;
 
-import com.project.cop5339.controller.ProductController;
+import com.project.cop5339.controller.ItemsController;
 import com.project.cop5339.controller.SellerController;
+import com.project.cop5339.controller.ShoppingCartController;
+import com.project.cop5339.model.Item;
 import com.project.cop5339.model.Seller;
-import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.List;
 
-@Component
 public class SellerScreen extends JFrame {
 
     private JPanel contentPane;
@@ -19,17 +21,13 @@ public class SellerScreen extends JFrame {
     private JTextField usernameField;
     private JTextField passwordField;
     private JTextField productIdField;
-    private JTextField productNameField;
-    private JTextField productPriceField;
 
-    private SellerController sellerController;
-
-    private ProductController productController;
 
     /**
      * Create the frame.
      */
-    public SellerScreen() {
+    public SellerScreen(Long userId, SellerController sellerController, ShoppingCartController shoppingCartController, ItemsController itemsController) {
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 400);
         contentPane = new JPanel();
@@ -105,8 +103,15 @@ public class SellerScreen extends JFrame {
         productFormPanel.add(productIdField);
         productIdField.setColumns(10);
 
-        JLabel productNameLabel = new JLabel("Product Name:");
-        productFormPanel.add(productNameLabel);
+
+        // Create the price field
+        JLabel productNameLabel = new JLabel("Product Name");
+        productNameLabel.setBounds(50, 100, 100, 30);
+        add(productNameLabel);
+        JTextField productNameLabelField = new JTextField();
+        productNameLabelField.setBounds(150, 100, 200, 30);
+        add(productNameLabelField);
+
 
         // Create the price field
         JLabel priceLabel = new JLabel("Price:");
@@ -125,29 +130,34 @@ public class SellerScreen extends JFrame {
         add(quantityField);
 
         // Create the add product button
-        JButton addProductButton = new JButton("Add Product");
+        JButton addProductButton = new JButton("Add Items");
         addProductButton.setBounds(50, 250, 300, 30);
         add(addProductButton);
         // fix below
         // Set up the action listener for the add product button
-        /*addProductButton.addActionListener(new ActionListener() {
+        addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String productName = productNameField.getText();
+                String productName = productNameLabelField.getText();
                 BigDecimal price = new BigDecimal(priceField.getText());
                 int quantity = Integer.parseInt(quantityField.getText());
-                ProductService productService = new ProductService();
 
-                // Call the product service to add the product to the database
-                Product product = productService.addProduct(productName, price, quantity, seller);
+
+                Item item1 = new Item();
+                item1.setName("Item 1");
+                item1.setPrice(new BigDecimal("10.99"));
+                item1.setQuantity(5);
+                item1.setSellerId(userId);
+                Item created_item = itemsController.create(item1);
+
 
                 // Display a message to indicate success
                 JOptionPane.showMessageDialog(SellerScreen.this,
-                        "Product \"" + productName + "\" added successfully with ID " + product.getProductId(),
+                        "Product \"" + productName + "\" added successfully with ID " +created_item.getId(),
                         "Product Added",
                         JOptionPane.INFORMATION_MESSAGE);
             }
-        });*/
+        });
 
         // Create the view products button
         JButton viewProductsButton = new JButton("View Products");
@@ -155,27 +165,27 @@ public class SellerScreen extends JFrame {
         add(viewProductsButton);
 
         // Set up the action listener for the view products button
-        /*viewProductsButton.addActionListener(new ActionListener() {
+        viewProductsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Call the product service to get a list of products for the seller
-                List<Product> products = productService.getProductsBySeller(seller);
+                List<Item> items = itemsController.getAllItemsbySellerid(userId);
 
                 // Display the products in a dialog box
                 StringBuilder message = new StringBuilder();
                 message.append("Your products:\n");
-                for (Product product : products) {
-                    message.append("\nProduct ID: ").append(product.getProductId())
-                            .append("\nName: ").append(product.getName())
-                            //.append("\nPrice: ").append(product.getPrice())
-                            //.append("\nQuantity: ").append(product.getQuantity());
+                for (Item item : items) {
+                    message.append("\nProduct ID: ").append(item.getId())
+                            .append("\nName: ").append(item.getName())
+                            .append("\nPrice: ").append(item.getPrice())
+                            .append("\nQuantity: ").append(item.getQuantity());
                 }
                 JOptionPane.showMessageDialog(SellerScreen.this,
                         message.toString(),
                         "Your Products",
                         JOptionPane.INFORMATION_MESSAGE);
             }
-        });*/
+        });
 
         // Set up the screen
         setTitle("Seller Screen");
@@ -184,5 +194,7 @@ public class SellerScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
+        setVisible(true);
+
     }
 }
