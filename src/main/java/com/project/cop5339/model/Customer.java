@@ -38,7 +38,13 @@ public class Customer {
     public String getPassword() {
         return password;
     }
-
+    public static Customer createCustomer(Long id, String username, String password) {
+        Customer customer = new Customer();
+        customer.id = id;
+        customer.username = username;
+        customer.password = password;
+        return customer;
+    }
     public void setPassword(String password) {
         this.password = password;
     }

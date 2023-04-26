@@ -145,9 +145,9 @@ public class SellerScreen extends JFrame {
 
 
                 Item item1 = new Item();
-                item1.setName("Item 1");
-                item1.setPrice(new BigDecimal("10.99"));
-                item1.setQuantity(5);
+                item1.setName(productName);
+                item1.setPrice(price);
+                item1.setQuantity(quantity);
                 item1.setSellerId(userId);
                 Item created_item = itemsController.create(item1);
 

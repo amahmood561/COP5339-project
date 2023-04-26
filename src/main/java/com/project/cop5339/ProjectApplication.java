@@ -66,11 +66,6 @@ public class ProjectApplication {
         loginScreen.setVisible(true);
 
 
-
-        // Launch the Swing application
-        //HelloWorldController controller = context.getBean(HelloWorldController.class);
-       //         HelloWorldSwing helloWorldSwing = new HelloWorldSwing(controller);
-       // helloWorldSwing.showGUI();
     }
 
 }

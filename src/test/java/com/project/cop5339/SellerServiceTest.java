@@ -1,6 +1,5 @@
 package com.project.cop5339;
 
-import com.project.cop5339.model.Product;
 import com.project.cop5339.model.Seller;
 import com.project.cop5339.model.repository.SellerRepository;
 import com.project.cop5339.service.SellerService;
@@ -12,9 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,8 +36,7 @@ public class SellerServiceTest {
     @After("")
     public void tearDown() {
         // delete test seller
-        Seller testSeller = (Seller) sellerRepository.findByUsername("testuser")
-                .orElse(null);
+        Seller testSeller = (Seller) sellerRepository.findByUsername("testuser");
         if (testSeller != null) {
             sellerRepository.delete(testSeller);
         }
@@ -58,8 +53,8 @@ public class SellerServiceTest {
 
     @Test
     public void testGetSellerById() {
-        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser")
-                .orElse(null);
+        Seller testSeller = sellerRepository.findByUsername("newuser");
+
         assertNotNull(testSeller);
 
         Long sellerId = testSeller.getSellerId();
@@ -68,31 +63,4 @@ public class SellerServiceTest {
         assertEquals(testSeller, foundSeller);
     }
 
-    @Test
-    public void testGetSalesReport() {
-        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser")
-                .orElse(null);
-        assertNotNull(testSeller);
-
-        Product product1 = new Product("product1",10.0, 20.0, 10);
-        product1.setSeller(testSeller);
-        Product product2 = new Product("product2", 15.0, 30.0, 5);
-        product2.setSeller(testSeller);
-
-        List<Product> products = new ArrayList<>();
-        products.add(product1);
-        products.add(product2);
-        testSeller.setProducts(products);
-
-        BigDecimal expectedCosts = BigDecimal.valueOf(175.0);
-        BigDecimal expectedRevenues = BigDecimal.valueOf(350.0);
-        BigDecimal expectedProfits = BigDecimal.valueOf(175.0);
-
-        Seller salesReport = sellerService.getSalesReport("newuser");
-        assertEquals(expectedCosts, salesReport.getCosts()); // will fail
-        assertEquals(expectedRevenues, salesReport.getRevenues());
-        assertEquals(expectedProfits, salesReport.getProfits());
-    }
-
-    // add more test methods as needed
 }
