@@ -69,7 +69,7 @@ public class SellerServiceTest {
         Long sellerId = testSeller.getSellerId();
         Optional<Seller> foundSeller = sellerService.getSellerById(sellerId);
         assertNotNull(foundSeller);
-        assertEquals(testSeller, foundSeller);
+        assertEquals(testSeller.getUsername(), foundSeller.get().getUsername());
     }
 
     @Test
