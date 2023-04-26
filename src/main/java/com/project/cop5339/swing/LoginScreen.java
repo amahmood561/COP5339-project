@@ -66,7 +66,7 @@ public class LoginScreen extends JFrame {
                 } else if (customer != null) {
                     // Show the customer screen
                     dispose();
-                   new CustomerScreen(username, shoppingCartController, itemsController);
+                   new CustomerScreen(username,customer.getId(), shoppingCartController, itemsController);
                 } else {
                     // Show an error message
                     errorLabel.setText("Invalid username or password");

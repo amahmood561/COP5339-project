@@ -18,10 +18,13 @@ public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ItemRepository itemRepository;
 
-    public ShoppingCartService(CustomerRepository customerService, ShoppingCartRepository shoppingCartRepository, ItemRepository itemRepository) {
+    private final SoldItemsService soldItemsService;
+
+    public ShoppingCartService(CustomerRepository customerService, ShoppingCartRepository shoppingCartRepository, ItemRepository itemRepository, SoldItemsService soldItemsService) {
         this.customerService = customerService;
         this.shoppingCartRepository = shoppingCartRepository;
         this.itemRepository = itemRepository;
+        this.soldItemsService = soldItemsService;
     }
 
     public Long createShoppingCart(ShoppingCart shoppingCart) {
@@ -37,9 +40,6 @@ public class ShoppingCartService {
         if (shoppingCart != null) {
             shoppingCart.getItems().add(item);
         }
-       //item.setShoppingCart(shoppingCart);
-       // itemRepository.save(item);
-        // return shoppingCartRepository.save(shoppingCart);
         return  shoppingCart;
     }
 
@@ -73,7 +73,7 @@ public class ShoppingCartService {
         // Otherwise, return the items in the cart
         return shoppingCart.getItems();
     }
-    public String checkout(ShoppingCart shoppingCart) {
+    public String checkout(ShoppingCart shoppingCart, long userId) {
         // Get the current shopping cart for the user
 
         // Check if the cart is empty
@@ -84,10 +84,20 @@ public class ShoppingCartService {
         // Calculate the total cost of the items in the cart
         BigDecimal totalCost = BigDecimal.ZERO;
         for (Item item : shoppingCart.getItems()) {
+            soldItemsService.saveSoldItems(item.getId(),userId,shoppingCart.getCartId());
             BigDecimal itemCost = BigDecimal.valueOf(item.getPrice() * item.getQuantity());
             totalCost = totalCost.add(itemCost);
         }
 
+        /*// Check if the user has enough funds to cover the cost of the items
+        Customer customer = customerService.getReferenceById(customerId);
+        if (customer.getBalance().compareTo(totalCost) < 0) {
+            return "You do not have enough funds to complete this transaction. Please add funds to your account and try again.";
+        }
+
+        // Deduct the cost of the items from the customer's balance
+        customer.setBalance(customer.getBalance().subtract(totalCost));
+        customerRepository.save(customer);*/
 
         // Remove the items from the shopping cart
         shoppingCart.getItems().clear();

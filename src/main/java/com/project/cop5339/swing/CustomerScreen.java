@@ -24,13 +24,14 @@ public class CustomerScreen extends JFrame {
     private JPanel panel;
     private GridBagConstraints constraints;
 
-    public CustomerScreen(String username, ShoppingCartController shoppingCartController, ItemsController itemsController) {
+    public CustomerScreen(String username,long userId, ShoppingCartController shoppingCartController, ItemsController itemsController) {
         this.shoppingCartController = shoppingCartController;
 
         setTitle("Customer Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ShoppingCart cart = new ShoppingCart();
         long shoppingCartId = shoppingCartController.createCart();
+        cart.setCartId(shoppingCartId);
         // Set up the welcome label
         welcomeLabel = new JLabel("Welcome, " + username + "!");
         welcomeLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -112,7 +113,7 @@ public class CustomerScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Call the shopping cart controller to process the checkout
-                String message = shoppingCartController.checkout(cart);
+                String message = shoppingCartController.checkout(cart, userId);
 
                 // Display the checkout result in a dialog box
                 JOptionPane.showMessageDialog(CustomerScreen.this,

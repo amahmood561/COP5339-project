@@ -36,8 +36,8 @@ public class ShoppingCartController {
         }
     }
 
-    public String checkout(ShoppingCart shoppingCart) {
-        return shoppingCartService.checkout(shoppingCart);
+    public String checkout(ShoppingCart shoppingCart, long userID) {
+        return shoppingCartService.checkout(shoppingCart, userID);
     }
 
     public int getCartSize(long Id) {
