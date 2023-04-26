@@ -1,5 +1,6 @@
 package com.project.cop5339.swing;
 
+import com.project.cop5339.controller.CustomerController;
 import com.project.cop5339.controller.ItemsController;
 import com.project.cop5339.controller.SellerController;
 import com.project.cop5339.controller.ShoppingCartController;
@@ -26,7 +27,7 @@ public class SellerScreen extends JFrame {
     /**
      * Create the frame.
      */
-    public SellerScreen(Long userId, SellerController sellerController, ShoppingCartController shoppingCartController, ItemsController itemsController) {
+    public SellerScreen(Long userId, SellerController sellerController, CustomerController customerController, ShoppingCartController shoppingCartController, ItemsController itemsController) {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 400);
@@ -184,6 +185,20 @@ public class SellerScreen extends JFrame {
                         message.toString(),
                         "Your Products",
                         JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        JButton signOutButton = new JButton("Sign Out");
+        signOutButton.setBounds(50, 350, 300, 30);
+        add(signOutButton);
+        signOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Dispose of the current login screen
+                dispose();
+                // Create a new login screen
+                LoginScreen loginScreen = new LoginScreen(sellerController, customerController, shoppingCartController, itemsController);
+                loginScreen.setVisible(true);
             }
         });
 
