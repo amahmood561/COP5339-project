@@ -37,9 +37,10 @@ public class ShoppingCartService {
         if (shoppingCart != null) {
             shoppingCart.getItems().add(item);
         }
-        item.setShoppingCart(shoppingCart);
-        itemRepository.save(item);
-        return shoppingCartRepository.save(shoppingCart);
+       //item.setShoppingCart(shoppingCart);
+       // itemRepository.save(item);
+        // return shoppingCartRepository.save(shoppingCart);
+        return  shoppingCart;
     }
 
     public ShoppingCart removeItemFromShoppingCart(ShoppingCart shoppingCart, Item item) {
@@ -72,9 +73,8 @@ public class ShoppingCartService {
         // Otherwise, return the items in the cart
         return shoppingCart.getItems();
     }
-    public String checkout(Long id) {
+    public String checkout(ShoppingCart shoppingCart) {
         // Get the current shopping cart for the user
-        ShoppingCart shoppingCart = this.getShoppingCartById(id);
 
         // Check if the cart is empty
         if (shoppingCart.getItems().isEmpty()) {
@@ -88,19 +88,9 @@ public class ShoppingCartService {
             totalCost = totalCost.add(itemCost);
         }
 
-        /*// Check if the user has enough funds to cover the cost of the items
-        Customer customer = customerService.getReferenceById(customerId);
-        if (customer.getBalance().compareTo(totalCost) < 0) {
-            return "You do not have enough funds to complete this transaction. Please add funds to your account and try again.";
-        }
-
-        // Deduct the cost of the items from the customer's balance
-        customer.setBalance(customer.getBalance().subtract(totalCost));
-        customerRepository.save(customer);*/
 
         // Remove the items from the shopping cart
         shoppingCart.getItems().clear();
-        shoppingCartRepository.save(shoppingCart);
 
         return "Your order has been processed. Total cost: " + totalCost.toString();
     }

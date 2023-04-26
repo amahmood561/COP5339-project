@@ -1,12 +1,15 @@
 package com.project.cop5339.swing;
 
+import com.project.cop5339.controller.ItemsController;
 import com.project.cop5339.controller.ShoppingCartController;
+import com.project.cop5339.model.Item;
 import com.project.cop5339.model.ShoppingCart;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class CustomerScreen extends JFrame {
 
@@ -21,7 +24,7 @@ public class CustomerScreen extends JFrame {
     private JPanel panel;
     private GridBagConstraints constraints;
 
-    public CustomerScreen(String username, ShoppingCartController shoppingCartController) {
+    public CustomerScreen(String username, ShoppingCartController shoppingCartController, ItemsController itemsController) {
         this.shoppingCartController = shoppingCartController;
 
         setTitle("Customer Screen");
@@ -44,7 +47,7 @@ public class CustomerScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Call the shopping cart controller to get the items in the cart
-                String message = shoppingCartController.viewCart(shoppingCartId);
+                String message = shoppingCartController.viewCart(cart);
 
                 // Display the items in a dialog box
                 JOptionPane.showMessageDialog(CustomerScreen.this,
@@ -54,47 +57,62 @@ public class CustomerScreen extends JFrame {
             }
         });
 
-        addItemButton = new JButton("Add Item");
+
         // create item save it as item then pass object to controller
-        /*addItemButton.addActionListener(new ActionListener() {
+
+        addItemButton = new JButton("Add Items");
+        addItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Prompt the user to enter the item details
-                JTextField nameField = new JTextField(10);
-                JTextField priceField = new JTextField(10);
-                JTextField quantityField = new JTextField(10);
+                SwingWorker<List<Item>, Void> worker = new SwingWorker<>() {
+                    @Override
+                    public List<Item> doInBackground() throws Exception {
+                        return itemsController.getAllItems();
+                    }
 
-                JPanel panel = new JPanel(new GridLayout(0, 1));
-                panel.add(new JLabel("Name:"));
-                panel.add(nameField);
-                panel.add(new JLabel("Price:"));
-                panel.add(priceField);
-                panel.add(new JLabel("Quantity:"));
-                panel.add(quantityField);
+                    @Override
+                    protected void done() {
+                        try {
+                            List<Item> items = get();
 
-                int result = JOptionPane.showConfirmDialog(CustomerScreen.this, panel, "Add Item",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                if (result == JOptionPane.OK_OPTION) {
-                    // Get the item details from the input fields
-                    String name = nameField.getText();
-                    BigDecimal price = new BigDecimal(priceField.getText());
-                    int quantity = Integer.parseInt(quantityField.getText());
+                            JCheckBox[] checkboxes = new JCheckBox[items.size()];
+                            for (int i = 0; i < items.size(); i++) {
+                                Item item = items.get(i);
+                                checkboxes[i] = new JCheckBox(item.getName() + " - $" + item.getPrice());
+                            }
 
-                    // Call the shopping cart controller to add the item to the cart
-                    shoppingCartController.addItemToCart(name, price, quantity);
+                            int result = JOptionPane.showConfirmDialog(null, checkboxes, "Items", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                            int count = 0;
+                            if (result == JOptionPane.OK_OPTION) {
+                                for (int i = 0; i < checkboxes.length; i++) {
+                                    if (checkboxes[i].isSelected()) {
+                                        count = count + 1;
+                                        // Get the selected item from the list
+                                        Item selectedItem = items.get(i);
 
-                    // Update the cart label
-                    cartLabel.setText("Cart: " + shoppingCartController.getCartSize(shoppingCartId));
-                }
+                                        // Call the shopping cart controller to add the item to the cart
+                                        shoppingCartController.addItemToCart(cart, selectedItem);
+                                    }
+                                }
+
+                                // Update the cart label
+                                cartLabel.setText("Cart: " + count);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                };
+                worker.execute();
             }
-        });*/
+        });
 
         checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Call the shopping cart controller to process the checkout
-                String message = shoppingCartController.checkout(shoppingCartId);
+                String message = shoppingCartController.checkout(cart);
 
                 // Display the checkout result in a dialog box
                 JOptionPane.showMessageDialog(CustomerScreen.this,

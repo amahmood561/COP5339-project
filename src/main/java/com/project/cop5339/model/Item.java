@@ -40,6 +40,17 @@ public class Item {
         return product;
     }
 
+    @Column(nullable = true)
+    private Long sellerId;
+
+    // getters and setters
+    public Long getSellerId() {
+        return sellerId;
+    }
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     public void setProduct(Product product) {
         this.product = product;
     }
