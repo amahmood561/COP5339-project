@@ -11,7 +11,11 @@ The src/main/java directory contains the main Java code of the project.
 The com.example.shopping package is the root package for the application, and it contains sub-packages for controller, model, repository, and service layers.
 The src/main/resources directory contains non-Java resources, such as properties files, XML files, and static resources. In this case, it contains only application.properties file.
 
-# COP 5339 Group
+# COP 5339 Group 1 
+
+Asam Mahmood
+Lucas 
+Lohith
 
 Project has three workflow seller customer and login workflow 
 
