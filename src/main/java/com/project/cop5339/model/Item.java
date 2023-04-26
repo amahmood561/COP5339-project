@@ -90,8 +90,4 @@ public class Item {
         return this.price;
     }
 
-    //public void setShoppingCart(ShoppingCart shoppingCart) {
-     //   this.shoppingCart = shoppingCart;
-   // }/
-
 }
