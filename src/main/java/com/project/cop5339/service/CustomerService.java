@@ -49,7 +49,7 @@ public class CustomerService {
         if (customer != null && customer.getPassword().equals(password)) {
             return customer;
         } else {
-            throw new IllegalArgumentException("Invalid login credentials.");
+            return null;
         }
     }
     public void deleteCustomer(Long customerId) {

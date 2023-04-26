@@ -2,6 +2,7 @@ package com.project.cop5339.swing;
 
 import com.project.cop5339.controller.CustomerController;
 import com.project.cop5339.controller.SellerController;
+import com.project.cop5339.controller.ShoppingCartController;
 import com.project.cop5339.model.Customer;
 import com.project.cop5339.model.Seller;
 
@@ -26,7 +27,7 @@ public class LoginScreen extends JFrame {
     private SellerController sellerController;
     private CustomerController customerController;
 
-    public LoginScreen(SellerController sellerController, CustomerController customerController) {
+    public LoginScreen(SellerController sellerController, CustomerController customerController,  ShoppingCartController shoppingCartController) {
         this.sellerController = sellerController;
         this.customerController = customerController;
 
@@ -46,9 +47,13 @@ public class LoginScreen extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Button clicked");
+
                 // Get the entered username and password
                 String username = usernameTextField.getText();
                 String password = Arrays.toString(passwordField.getPassword());
+                password = password.replaceAll("[^a-zA-Z0-9]", "");
+
                 Customer customer = customerController.login(username, password);
                 Seller seller = sellerController.login(username, password);
 
@@ -60,7 +65,7 @@ public class LoginScreen extends JFrame {
                 } else if (customer != null) {
                     // Show the customer screen
                     dispose();
-                    new CustomerScreen(username);
+                   new CustomerScreen(username, shoppingCartController);
                 } else {
                     // Show an error message
                     errorLabel.setText("Invalid username or password");
@@ -99,3 +104,5 @@ public class LoginScreen extends JFrame {
         setVisible(true);
     }
 }
+
+
