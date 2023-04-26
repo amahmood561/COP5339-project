@@ -2,6 +2,7 @@ package com.project.cop5339;
 
 import com.project.cop5339.model.Product;
 import com.project.cop5339.model.Seller;
+import com.project.cop5339.model.repository.ProductRepository;
 import com.project.cop5339.model.repository.SellerRepository;
 import com.project.cop5339.service.SellerService;
 import org.aspectj.lang.annotation.After;
@@ -30,6 +31,9 @@ public class SellerServiceTest {
     @Autowired
     private SellerRepository sellerRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Before("")
     public void setUp() {
         // create test seller
@@ -40,8 +44,8 @@ public class SellerServiceTest {
     @After("")
     public void tearDown() {
         // delete test seller
-        Seller testSeller = (Seller) sellerRepository.findByUsername("testuser")
-                .orElse(null);
+        Seller testSeller = (Seller) sellerRepository.findByUsername("testuser");
+//                .orElse(null);
         if (testSeller != null) {
             sellerRepository.delete(testSeller);
         }
@@ -58,20 +62,20 @@ public class SellerServiceTest {
 
     @Test
     public void testGetSellerById() {
-        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser")
-                .orElse(null);
+        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser");
+//                .orElse(null);
         assertNotNull(testSeller);
 
         Long sellerId = testSeller.getSellerId();
         Optional<Seller> foundSeller = sellerService.getSellerById(sellerId);
         assertNotNull(foundSeller);
-        assertEquals(testSeller, foundSeller);
+        assertEquals(testSeller.getUsername(), foundSeller.get().getUsername());
     }
 
     @Test
     public void testGetSalesReport() {
-        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser")
-                .orElse(null);
+        Seller testSeller = (Seller) sellerRepository.findByUsername("newuser");
+//                .orElse(null);
         assertNotNull(testSeller);
 
         Product product1 = new Product("product1",10.0, 20.0, 10);
@@ -83,6 +87,9 @@ public class SellerServiceTest {
         products.add(product1);
         products.add(product2);
         testSeller.setProducts(products);
+
+        productRepository.save(product1);
+        productRepository.save(product2);
 
         BigDecimal expectedCosts = BigDecimal.valueOf(175.0);
         BigDecimal expectedRevenues = BigDecimal.valueOf(350.0);
