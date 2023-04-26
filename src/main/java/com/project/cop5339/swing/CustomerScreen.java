@@ -21,7 +21,7 @@ public class CustomerScreen extends JFrame {
     private JPanel panel;
     private GridBagConstraints constraints;
 
-    public CustomerScreen(String username) {
+    public CustomerScreen(String username, ShoppingCartController shoppingCartController) {
         this.shoppingCartController = shoppingCartController;
 
         setTitle("Customer Screen");
@@ -130,5 +130,6 @@ public class CustomerScreen extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+
     }
 }

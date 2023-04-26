@@ -80,10 +80,9 @@ public class SellerService {
         if (seller != null && seller.getPassword().equals(password)) {
             return seller;
         } else {
-            throw new IllegalArgumentException("Invalid login credentials.");
+            return null;
         }
     }
-
     public Seller createSeller(Seller seller) {
         return sellerRepository.save(seller);
     }

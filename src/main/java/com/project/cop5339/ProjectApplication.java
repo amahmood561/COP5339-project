@@ -2,6 +2,7 @@ package com.project.cop5339;
 
 import com.project.cop5339.controller.CustomerController;
 import com.project.cop5339.controller.SellerController;
+import com.project.cop5339.controller.ShoppingCartController;
 import com.project.cop5339.model.Customer;
 import com.project.cop5339.model.Seller;
 import com.project.cop5339.swing.LoginScreen;
@@ -17,7 +18,7 @@ public class ProjectApplication {
 
         //SpringApplication.run(ProjectApplication.class, args);
         ConfigurableApplicationContext context = SpringApplication.run(ProjectApplication.class, args);
-
+        ShoppingCartController shoppingCartController = context.getBean(ShoppingCartController.class);
         SellerController sellerController = context.getBean(SellerController.class);
         //SellerScreen sellerScreen = new SellerScreen();
         //sellerScreen.setVisible(true);
@@ -39,7 +40,7 @@ public class ProjectApplication {
         customer.setEmail("customer@example.com");
         customerController.createCustomer(customer);
         // Show the login screen
-        LoginScreen loginScreen = new LoginScreen(sellerController, customerController);
+        LoginScreen loginScreen = new LoginScreen(sellerController, customerController, shoppingCartController);
         loginScreen.setVisible(true);
 
 

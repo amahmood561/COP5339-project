@@ -13,9 +13,8 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Item> items = new ArrayList<>();
-
     public ShoppingCart() {}
 
     public Long getCartId() {
@@ -27,7 +26,7 @@ public class ShoppingCart {
     }
 
     public List<Item> getItems() {
-        return items;
+        return this.items;
     }
 
     public void setItems(List<Item> items) {
