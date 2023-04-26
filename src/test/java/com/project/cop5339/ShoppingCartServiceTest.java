@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import static org.aspectj.bridge.MessageUtil.fail;
 //import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
@@ -51,7 +52,7 @@ class ShoppingCartServiceTest {
             shoppingCartService.addItemToShoppingCart(cart, item);
 
             // assert that the cart now contains the item
-//            assertTrue(cart.getItems().contains(item));
+            assertTrue(cart.getItems().contains(item));
         } else {
             fail("Failed to save shopping cart to database");
         }
