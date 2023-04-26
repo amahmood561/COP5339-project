@@ -1,6 +1,7 @@
 package com.project.cop5339.swing;
 
 import com.project.cop5339.controller.CustomerController;
+import com.project.cop5339.controller.ItemsController;
 import com.project.cop5339.controller.SellerController;
 import com.project.cop5339.controller.ShoppingCartController;
 import com.project.cop5339.model.Customer;
@@ -27,7 +28,7 @@ public class LoginScreen extends JFrame {
     private SellerController sellerController;
     private CustomerController customerController;
 
-    public LoginScreen(SellerController sellerController, CustomerController customerController,  ShoppingCartController shoppingCartController) {
+    public LoginScreen(SellerController sellerController, CustomerController customerController,  ShoppingCartController shoppingCartController, ItemsController itemsController) {
         this.sellerController = sellerController;
         this.customerController = customerController;
 
@@ -61,11 +62,11 @@ public class LoginScreen extends JFrame {
                 if (seller != null) {
                     // Show the seller screen
                     dispose();
-                    new SellerScreen();
+                    new SellerScreen(seller.getSellerId(), sellerController, shoppingCartController, itemsController);
                 } else if (customer != null) {
                     // Show the customer screen
                     dispose();
-                   new CustomerScreen(username, shoppingCartController);
+                   new CustomerScreen(username,customer.getId(), shoppingCartController, itemsController);
                 } else {
                     // Show an error message
                     errorLabel.setText("Invalid username or password");

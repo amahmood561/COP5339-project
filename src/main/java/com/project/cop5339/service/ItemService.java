@@ -18,6 +18,9 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
+    public List<Item> getAllItemsBySellerId(Long sellerId) {
+        return itemRepository.findBySellerId(sellerId);
+    }
     public Item saveItem(Item item) {
         return itemRepository.save(item);
     }

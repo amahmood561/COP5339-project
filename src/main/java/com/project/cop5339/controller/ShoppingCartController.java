@@ -22,8 +22,8 @@ public class ShoppingCartController {
         ShoppingCart cart = new ShoppingCart();
         return shoppingCartService.createShoppingCart(cart);
     }
-    public String viewCart(long Id) {
-        List<Item> items = shoppingCartService.getCartItems(Id);
+    public String viewCart(ShoppingCart cart) {
+        List<Item> items = cart.getItems();
         if (items.isEmpty()) {
             return "Your cart is empty.";
         } else {
@@ -36,8 +36,8 @@ public class ShoppingCartController {
         }
     }
 
-    public String checkout(long id) {
-        return shoppingCartService.checkout(id);
+    public String checkout(ShoppingCart shoppingCart, long userID) {
+        return shoppingCartService.checkout(shoppingCart, userID);
     }
 
     public int getCartSize(long Id) {

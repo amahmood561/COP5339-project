@@ -18,10 +18,13 @@ public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ItemRepository itemRepository;
 
-    public ShoppingCartService(CustomerRepository customerService, ShoppingCartRepository shoppingCartRepository, ItemRepository itemRepository) {
+    private final SoldItemsService soldItemsService;
+
+    public ShoppingCartService(CustomerRepository customerService, ShoppingCartRepository shoppingCartRepository, ItemRepository itemRepository, SoldItemsService soldItemsService) {
         this.customerService = customerService;
         this.shoppingCartRepository = shoppingCartRepository;
         this.itemRepository = itemRepository;
+        this.soldItemsService = soldItemsService;
     }
 
     public Long createShoppingCart(ShoppingCart shoppingCart) {
@@ -37,9 +40,7 @@ public class ShoppingCartService {
         if (shoppingCart != null) {
             shoppingCart.getItems().add(item);
         }
-        item.setShoppingCart(shoppingCart);
-        itemRepository.save(item);
-        return shoppingCartRepository.save(shoppingCart);
+        return  shoppingCart;
     }
 
     public ShoppingCart removeItemFromShoppingCart(ShoppingCart shoppingCart, Item item) {
@@ -72,9 +73,8 @@ public class ShoppingCartService {
         // Otherwise, return the items in the cart
         return shoppingCart.getItems();
     }
-    public String checkout(Long id) {
+    public String checkout(ShoppingCart shoppingCart, long userId) {
         // Get the current shopping cart for the user
-        ShoppingCart shoppingCart = this.getShoppingCartById(id);
 
         // Check if the cart is empty
         if (shoppingCart.getItems().isEmpty()) {
@@ -84,6 +84,7 @@ public class ShoppingCartService {
         // Calculate the total cost of the items in the cart
         BigDecimal totalCost = BigDecimal.ZERO;
         for (Item item : shoppingCart.getItems()) {
+            soldItemsService.saveSoldItems(item.getId(),userId,shoppingCart.getCartId());
             BigDecimal itemCost = BigDecimal.valueOf(item.getPrice() * item.getQuantity());
             totalCost = totalCost.add(itemCost);
         }
@@ -100,7 +101,6 @@ public class ShoppingCartService {
 
         // Remove the items from the shopping cart
         shoppingCart.getItems().clear();
-        shoppingCartRepository.save(shoppingCart);
 
         return "Your order has been processed. Total cost: " + totalCost.toString();
     }
